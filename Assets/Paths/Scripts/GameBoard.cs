@@ -24,6 +24,12 @@ namespace Paths
         {
             var instance = _tiles[x * _width + z] = Instantiate(_tilePrefab, new Vector3(x, 0, z), Quaternion.identity, transform);
             instance.Init(x, z);
+
+            if (x > 0)
+                GameTile.MakeRightLeftNeighbors(instance, _tiles[(x - 1) * _width + z]);
+
+            if (z > 0)
+                GameTile.MakeForwardBackNeighbors(instance, _tiles[x * _width + (z - 1)]);
         }
 
         public GameTile GetTile(Vector3 position)
