@@ -11,7 +11,8 @@ namespace Paths
         private void Start()
         {
             _board.Create(10, 10);
-            _board.SetPathFinder(new AStar());
+            //_board.SetPathFinder(new AStar());
+            _board.SetPathFinder(new AWave());
             _camera.position = new Vector3(5, 10, 5);
             _camera.rotation = Quaternion.Euler(90, 0, 0);
         }
