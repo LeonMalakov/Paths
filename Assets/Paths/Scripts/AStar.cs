@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Paths
 {
@@ -130,7 +131,7 @@ namespace Paths
         {
             int x = to.X - from.X;
             int z = to.Z - from.Z;
-            return x * x + z * z;
+            return Mathf.RoundToInt(Mathf.Sqrt(x * x + z * z));
         }
     }
 }
