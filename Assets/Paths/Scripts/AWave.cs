@@ -51,7 +51,7 @@ namespace Paths
                     if (node.Tile == to)
                         return node;
 
-                    ProccessNeighbors(costCounter, node);
+                    ProccessNeighbors(node, costCounter);
                 }
 
             } while (currentStepNodes.Count() > 0);
@@ -59,20 +59,20 @@ namespace Paths
             return null;
         }
 
-        private void ProccessNeighbors(int costCounter, Node node)
+        private void ProccessNeighbors(Node node, int costCounter)
         {
             foreach (var next in node.Tile.Neighbors)
-                ProccessNeighbor(costCounter, next);
+                ProccessNeighbor(next, costCounter);
         }
 
-        private void ProccessNeighbor(int costCounter, GameTile next)
+        private void ProccessNeighbor(GameTile node, int costCounter)
         {
-            if (next == null) return;
+            if (node == null) return;
 
-            if (next.IsObstacle) return;
+            if (node.IsObstacle) return;
 
-            if (ContainsTileNode(next) == false)
-                _marked.Add(new Node(next, costCounter));
+            if (ContainsTileNode(node) == false)
+                _marked.Add(new Node(node, costCounter));
         }
 
         private Path BuildPath(Node finishNode)
