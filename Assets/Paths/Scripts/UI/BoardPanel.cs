@@ -9,7 +9,7 @@ namespace Paths
         private const int MinValue = 2;
         private const int MaxValue = 100;
 
-        public delegate void ValuesChangedEventHandler(int width, int height);
+        public delegate void BoardCreateEventHandler(int width, int height);
 
         [SerializeField] private TMP_InputField _width;
         [SerializeField] private TMP_InputField _height;
@@ -18,7 +18,7 @@ namespace Paths
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public event ValuesChangedEventHandler ValuesChanged;
+        public event BoardCreateEventHandler CreateClicked;
 
         public void Init(int width, int height)
         {
@@ -43,7 +43,7 @@ namespace Paths
             Width = Parse(_width);
             Height = Parse(_height);
 
-            ValuesChanged?.Invoke(Width, Height);
+            CreateClicked?.Invoke(Width, Height);
         }
 
         private int Parse(TMP_InputField field)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Paths
@@ -6,12 +5,13 @@ namespace Paths
     [RequireComponent(typeof(GameBoard))]
     public class GameBoardClickHandler : MonoBehaviour
     {
+        public delegate void ClickedEventHandler(GameTile tile, bool isAlternate);
+
         private GameBoard _board;
 
         private Ray TouchRay => Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        public event Action<GameTile> TileClicked;
-        public event Action<GameTile> TileAlternateClicked;
+        public event ClickedEventHandler TileClicked;
 
         private void Awake()
         {
@@ -20,27 +20,20 @@ namespace Paths
 
         private void Update()
         {
-            if (IsPointerDown())
-                HandleClick();
-            else if(IsAlternativePointerDown())
-                HandleAlternateClick();
+            bool isAlternateDown = IsAlternativePointerDown();
+
+            if (isAlternateDown || IsPointerDown())
+                HandleClick(isAlternateDown);
         }
 
-        private void HandleClick()
+        private void HandleClick(bool isAlternate)
         {
-            var tile = FindTile();
+            var tile = FindClickedTile();
             if (tile != null)
-                TileClicked?.Invoke(tile);
+                TileClicked?.Invoke(tile, isAlternate);
         }
 
-        private void HandleAlternateClick()
-        {
-            var tile = FindTile();
-            if (tile != null)
-                TileAlternateClicked?.Invoke(tile);
-        }
-
-        private GameTile FindTile()
+        private GameTile FindClickedTile()
         {
             GameTile tile = null;
 

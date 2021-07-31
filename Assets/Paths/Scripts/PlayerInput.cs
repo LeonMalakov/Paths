@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Paths
 {
-    public class Controller : MonoBehaviour
+    public class PlayerInput : MonoBehaviour
     {
         private const int StartBoardWidth = 10;
         private const int StartBoardHeight = 10;
@@ -26,30 +26,30 @@ namespace Paths
         {
             OnAlgorithmChanged(_algorithmToggle.IsAStar);
             _gameBoardClickHandler.TileClicked += OnTileClicked;
-            _gameBoardClickHandler.TileAlternateClicked += OnTileAlternateClicked;
             _algorithmToggle.StateChanged += OnAlgorithmChanged;
-            _boardPanel.ValuesChanged += OnBoardValuesChanged;
+            _boardPanel.CreateClicked += OnBoardCreateClicked;
         }
 
         private void OnDisable()
         {
             _gameBoardClickHandler.TileClicked -= OnTileClicked;
-            _gameBoardClickHandler.TileAlternateClicked -= OnTileAlternateClicked;
             _algorithmToggle.StateChanged -= OnAlgorithmChanged;
-            _boardPanel.ValuesChanged -= OnBoardValuesChanged;
+            _boardPanel.CreateClicked -= OnBoardCreateClicked;
         }
 
-        private void OnTileClicked(GameTile tile)
+        private void OnTileClicked(GameTile tile, bool isAlternate)
         {
-            _board.ToggleObstacle(tile);
-        }
-
-        private void OnTileAlternateClicked(GameTile tile)
-        {
-            if (IsStartSelectPressed())
-                _board.SetStart(tile);
+            if (isAlternate)
+            {
+                if (IsSelectStartPressed())
+                    _board.SetStart(tile);
+                else
+                    _board.SetFinish(tile);
+            }
             else
-                _board.SetFinish(tile);
+            {
+                _board.ToggleObstacle(tile);
+            }
         }
 
         private void OnAlgorithmChanged(bool isAStar)
@@ -60,12 +60,12 @@ namespace Paths
             _board.SetPathFinder(finder);
         }
 
-        private void OnBoardValuesChanged(int width, int height)
+        private void OnBoardCreateClicked(int width, int height)
         {
             _board.Create(width, height);
             _camera.Place(width, height);
         }
 
-        private bool IsStartSelectPressed() => Input.GetKey(KeyCode.LeftShift);
+        private bool IsSelectStartPressed() => Input.GetKey(KeyCode.LeftShift);
     }
 }

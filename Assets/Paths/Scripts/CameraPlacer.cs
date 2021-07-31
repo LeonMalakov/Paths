@@ -16,8 +16,11 @@ namespace Paths
 
             camera.orthographicSize = Mathf.Max(h, w);
 
-            transform.position = new Vector3(width * 0.5f - 0.5f, 10, height * 0.5f - 0.5f + PaddingTop * height);
             transform.rotation = Quaternion.Euler(90, 0, 0);
+            transform.position = new Vector3(
+                width * 0.5f - 0.5f, 
+                10, 
+                height * 0.5f - 0.5f + PaddingTop * height);
         }
     }
 }

@@ -37,7 +37,6 @@ namespace Paths
             path = null;
             return false;
         }
-
         private Node Wave(GameTile to)
         {
             int costCounter = 0;

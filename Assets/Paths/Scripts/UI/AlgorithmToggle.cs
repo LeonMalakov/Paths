@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 namespace Paths
 {
-    [RequireComponent(typeof(Toggle))]
     public class AlgorithmToggle : MonoBehaviour
     {
         [SerializeField] private TMP_Text _onLabel;
         [SerializeField] private TMP_Text _offLabel;
+        [SerializeField] private Toggle _toggle;
 
-        private Toggle _toggle;
 
         public bool IsAStar => _toggle.isOn;
 
@@ -24,7 +23,6 @@ namespace Paths
 
         private void OnEnable()
         {
-            _toggle = GetComponent<Toggle>();
             OnValueChanged(_toggle.isOn);
             _toggle.onValueChanged.AddListener(OnValueChanged);
         }
